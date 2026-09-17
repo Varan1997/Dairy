@@ -1,0 +1,397 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Primary: deep forest green */
+  --color-brand-50: #f3f7f1;
+  --color-brand-100: #e3ecdd;
+  --color-brand-200: #c7dab9;
+  --color-brand-300: #a2c088;
+  --color-brand-400: #7ba25d;
+  --color-brand-500: #5c8740;
+  --color-brand-600: #456b2e;
+  --color-brand-700: #365525;
+  --color-brand-800: #2c451f;
+  --color-brand-900: #24391b;
+
+  /* Accent: warm gold, used sparingly for premium highlights */
+  --color-gold-50: #fdf8ec;
+  --color-gold-100: #faedc9;
+  --color-gold-200: #f4d98d;
+  --color-gold-300: #edc158;
+  --color-gold-400: #e2a530;
+  --color-gold-500: #cc8a1f;
+  --color-gold-600: #a86e17;
+  --color-gold-700: #855417;
+
+  /* Warm neutrals instead of stark gray */
+  --color-cream-50: #fbfaf7;
+  --color-cream-100: #f5f2ea;
+  --color-cream-200: #ece6d8;
+
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+
+  --shadow-soft: 0 1px 2px rgba(36, 57, 27, 0.04), 0 8px 24px -12px rgba(36, 57, 27, 0.18);
+  --shadow-soft-lg: 0 4px 8px rgba(36, 57, 27, 0.04), 0 16px 40px -16px rgba(36, 57, 27, 0.28);
+}
+
+/* Semantic tokens for theme-able surfaces/text — kept separate from the
+   brand/gold accent scales so switching themes never touches decorative
+   gradients (hero banners etc.) that are meant to look the same either way. */
+:root {
+  --color-surface: #ffffff;
+  --color-ink: #1e2a17;
+  --color-border-soft: rgba(36, 57, 27, 0.08);
+  --color-border-input: rgba(36, 57, 27, 0.14);
+  --color-danger: #b3401f;
+  --color-danger-bg: #fdf1ec;
+  --color-danger-border: rgba(179, 64, 31, 0.35);
+}
+
+.dark {
+  --color-cream-50: #10150c;
+  --color-cream-100: #182014;
+  --color-cream-200: #222b1b;
+
+  /* text-brand-900 is used almost everywhere as "ink on a light surface" —
+     flipping it here is what makes headings/body copy readable in dark mode.
+     Anywhere brand-900 is used as a solid/gradient background (hero banners,
+     selected-pill states) uses fixed hex values instead, so it's unaffected. */
+  --color-brand-900: #eef3ea;
+
+  --color-surface: #182014;
+  --color-ink: #eef3ea;
+  --color-border-soft: rgba(255, 255, 255, 0.08);
+  --color-border-input: rgba(255, 255, 255, 0.16);
+  --color-danger: #ff8f6b;
+  --color-danger-bg: rgba(255, 143, 107, 0.12);
+  --color-danger-border: rgba(255, 143, 107, 0.35);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-cream-50);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Fixed-palette gradients for hero banners/brand touches — deliberately not
+   theme tokens, so they read the same in light and dark mode. */
+.hero-gradient {
+  background-image: linear-gradient(to bottom right, #24391b, #365525, #456b2e);
+}
+
+.hero-gradient-light {
+  background-image: linear-gradient(to bottom right, #365525, #456b2e, #5c8740);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+.shadow-soft-lg {
+  box-shadow: var(--shadow-soft-lg);
+}
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: 1rem;
+  border: 1px solid var(--color-border-soft);
+  box-shadow: var(--shadow-soft);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.65rem 1.25rem;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98) translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background-color: var(--color-brand-600);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(36, 57, 27, 0.1), 0 6px 16px -6px rgba(69, 107, 46, 0.55);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-brand-700);
+}
+
+.btn-secondary {
+  background-color: var(--color-cream-100);
+  color: var(--color-brand-800);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--color-cream-200);
+}
+
+.dark .btn-secondary {
+  color: var(--color-ink);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-brand-700);
+  border: 1.5px solid var(--color-brand-300);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: var(--color-brand-50);
+  border-color: var(--color-brand-500);
+}
+
+.dark .btn-outline {
+  color: var(--color-ink);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.dark .btn-outline:hover:not(:disabled) {
+  background-color: var(--color-cream-100);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-danger-outline {
+  background-color: transparent;
+  color: var(--color-danger);
+  border: 1.5px solid var(--color-danger-border);
+}
+
+.btn-danger-outline:hover:not(:disabled) {
+  background-color: var(--color-danger-bg);
+  border-color: var(--color-danger);
+}
+
+.input {
+  width: 100%;
+  border-radius: 0.7rem;
+  border: 1.5px solid var(--color-border-input);
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  padding: 0.6rem 0.85rem;
+  font-size: 0.875rem;
+  transition: all 0.15s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 3px rgba(92, 135, 64, 0.15);
+}
+
+/* Shared hover/press feedback for interactive elements that aren't .btn/.card
+   (icon buttons, pills, chips, nav links) so the whole app feels consistently
+   tactile instead of only the primary buttons reacting to touch. */
+.hover-scale {
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.06);
+}
+
+.hover-scale:active {
+  transform: scale(0.94);
+}
+
+.hover-pop {
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hover-pop:hover {
+  transform: translateY(-1px) scale(1.03);
+}
+
+.hover-pop:active {
+  transform: scale(0.97);
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-brand-700);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.toast-in {
+  animation: toast-in 0.25s ease-out;
+}
+
+@keyframes milk-drop-fall {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(28px);
+    opacity: 0;
+  }
+}
+
+.milk-drop {
+  animation: milk-drop-fall 1.6s ease-in infinite;
+}
+
+.milk-drop-delay-1 {
+  animation-delay: 0.55s;
+}
+
+.milk-drop-delay-2 {
+  animation-delay: 1.1s;
+}
+
+@keyframes milk-tail-swing {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+.milk-tail {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: milk-tail-swing 2.4s ease-in-out infinite;
+}
+
+@keyframes milk-arm-pull {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+.milk-arm {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: milk-arm-pull 1s ease-in-out infinite;
+}
+
+@keyframes milk-bubble-float {
+  0% {
+    transform: translateY(0) translateX(0) scale(0.7);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-220px) translateX(10px) scale(1);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-440px) translateX(-8px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+.milk-bubble {
+  animation-name: milk-bubble-float;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.4s ease-out both;
+}
+
+@keyframes theme-icon-pop {
+  0% {
+    transform: scale(0.5) rotate(-45deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.theme-icon-pop {
+  display: inline-block;
+  animation: theme-icon-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
